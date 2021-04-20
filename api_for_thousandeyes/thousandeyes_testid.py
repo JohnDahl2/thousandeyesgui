@@ -11,6 +11,3 @@ class get_testid:
         for self.numbers in self.json_response:
             self.new_data.append({'testId':self.numbers['testId'],'testName':self.numbers['testName'],'type':self.numbers['type']})
         return self.new_data
-
-test = get_testid().get_the_data
-print(test)
