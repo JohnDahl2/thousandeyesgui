@@ -1,32 +1,22 @@
-import tkinter as tk
-from tkinter import ttk
-from api_for_thousandeyes.thousandeyes_agentid import get_agentid
-# Creating tkinter window
-window = tk.Tk()
-window.title('Combobox')
-window.geometry('500x250')
 
-# label text for title
-ttk.Label(window, text="GFG Combobox Widget",
-          background='green', foreground="white",
-          font=("Times New Roman", 15)).grid(row=0, column=1)
+index = 0
+size = 2
 
-# label
-ttk.Label(window, text="Select the Month :",
-          font=("Times New Roman", 10)).grid(column=0,
-                                             row=5, padx=10, pady=25)
-x = get_agentid()
-data = x.get_the_data
-print(data['agentName'])
-# Combobox creation
-'''
-n = tk.StringVar()
-monthchoosen = ttk.Combobox(window, width=27, textvariable=n)
+def _check(self, index, size):
+    entry = entries[index]
+    next_index = index + 1
+    next_entry = self.entries[next_index] if next_index < len(self.entries) else None
+    data = entry.get()
+    print(len(data))
+    if len(data) > size or not data.isdigit():
+        self._backspace(entry)
+    if len(data) >= size and next_entry:
+        next_entry.focus()
 
-# Adding combobox drop down list
-monthchoosen['values'] = data['agentNames']
+def _backspace(self, entry):
+    cont = entry.get()
+    entry.delete(0, tk.END)
+    entry.insert(0, cont[:-1])
 
-monthchoosen.grid(column=1, row=5)
-monthchoosen.current()
-window.mainloop()
-'''
+def get(self):
+    return [e.get() for e in self.entries]
