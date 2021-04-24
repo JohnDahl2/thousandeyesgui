@@ -2,11 +2,14 @@ import tkinter as tk
 from tkinter import ttk
 from logoncredintal.logon import thousandeyes_logon
 from gui_methods.gui_date_methods import gui_date_class
+from api_for_thousandeyes.requests_API import thousand_API
 
 class MainApp(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
+        self.agentId_list = thousand_API().get_the_data_agentId
+        self.testId_list = thousand_API().get_the_data_testId
 
         parent.title("Thousandeyes Interface")
         parent['background']='#E7E7E7'
@@ -26,8 +29,8 @@ class MainApp(tk.Frame):
         agendid_entry = ttk.Combobox(parent, width=27, textvariable=self.agendId)
 
         user_entry['values'] = thousandeyes_logon().logon()
-        testid_entry['values'] = self.get_list_of_test()
-        agendid_entry['values'] = self.get_list_of_cities()
+        testid_entry['values'] = tuple(key['type'] for key in self.testId_list)
+        agendid_entry['values'] = tuple(key['agentName'] for key in self.agentId_list)
 
         user_entry.grid(row=0, column=1)
         testid_entry.grid(row=3, column=1)
