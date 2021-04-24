@@ -1,15 +1,18 @@
 import requests
-class get_testid:
-    def __init__(self):
-        self.username = 'noreply@thousandeyes.com'
-        self.authtoken = 'g351mw5xqhvkmh1vq6zfm51c62wyzib2'
-    @property
-    def get_the_data(self):
-        self.response = requests.get('https://api.thousandeyes.com/v6/tests.json', auth=(self.username, self.authtoken))
-        self.json_response = self.response.json()['test']
-        self.new_data = []
-        for self.numbers in self.json_response:
-            self.new_data.append({'testId':self.numbers['testId'],'testName':self.numbers['testName'],'type':self.numbers['type']})
-        return self.new_data
+import numpy as np
+username = 'noreply@thousandeyes.com'
+authtoken = 'g351mw5xqhvkmh1vq6zfm51c62wyzib2'
 
-print(get_testid().get_the_data)
+def get_the_data(u,a):
+    response = requests.get('https://api.thousandeyes.com/v6/agents.json', auth=(u,a))
+    json_response = response.json()['agents']
+    new_data = []
+    for numbers in json_response:
+        if 'errorDetails' not in numbers:
+            new_data.append({'agentId': numbers['agentId'], 'agentName': numbers['agentName']})
+    return 'finished'
+
+def get_the_data_pop(u,a):
+    response = requests.get('https://api.thousandeyes.com/v6/agents.json', auth=(u, a))
+    json_response = response.json()['agents']
+    return 'finished'

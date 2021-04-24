@@ -22,23 +22,23 @@ class function_gui(MainApp):
 
     def retreive_credintails(self):
         return {'username':'Generic', 'testId': 'agent-to-server', 'agentId': 'Singapore', 'start':100, 'end': 200}
-        # try:
-        #     dt_start = self.TimeStamp(self.entry_start_date_year.get(), self.entry_start_date_month.get(), self.entry_start_date_day.get(),
-        #                           self.entry_start_date_hour.get(), self.entry_start_date_minutes.get(), self.entry_start_am_pm.get())
-        # except ValueError:
-        #     messagebox.showerror("Time Problem", f"The start time was entered incorrectly \n Its M D Y H:M")
-        #     return
-        # try:
-        #     dt_end = self.TimeStamp(self.entry_end_date_year.get(), self.entry_end_date_month.get(), self.entry_end_date_day.get(),
-        #                             self.entry_end_date_hour.get(), self.entry_end_date_minutes.get(), self.entry_end_am_pm.get())
-        # except ValueError:
-        #     messagebox.showerror("Time Problem", f"The end time was entered incorrectly \n Its M D Y H:M")
-        #     return
-        # return_json = {'username':self.user.get(), 'testId': self.testId.get(), 'agentId': self.agendId.get(), 'start':dt_start, 'end': dt_end}
-        # for val in return_json:
-        #     if val == '':
-        #         messagebox.showerror(f"The {val.keys()} value was not correct")
-        # return return_json
+        try:
+            dt_start = self.TimeStamp(self.entry_start_date_year.get(), self.entry_start_date_month.get(), self.entry_start_date_day.get(),
+                                  self.entry_start_date_hour.get(), self.entry_start_date_minutes.get(), self.entry_start_am_pm.get())
+        except ValueError:
+            messagebox.showerror("Time Problem", f"The start time was entered incorrectly \n Its M D Y H:M")
+            return
+        try:
+            dt_end = self.TimeStamp(self.entry_end_date_year.get(), self.entry_end_date_month.get(), self.entry_end_date_day.get(),
+                                    self.entry_end_date_hour.get(), self.entry_end_date_minutes.get(), self.entry_end_am_pm.get())
+        except ValueError:
+            messagebox.showerror("Time Problem", f"The end time was entered incorrectly \n Its M D Y H:M")
+            return
+        return_json = {'username':self.user.get(), 'testId': self.testId.get(), 'agentId': self.agendId.get(), 'start':dt_start, 'end': dt_end}
+        for val in return_json:
+            if val == '':
+                messagebox.showerror(f"The {val.keys()} value was not correct")
+        return return_json
 
     def retrieve_username_and_password(self):
         creditals = self.retreive_credintails()
