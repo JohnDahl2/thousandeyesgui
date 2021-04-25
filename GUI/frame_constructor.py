@@ -4,6 +4,7 @@ from logoncredintal.logon import thousandeyes_logon
 from gui_methods.gui_date_methods import gui_date_class
 from api_for_thousandeyes.requests_API import thousand_API
 
+
 class MainApp(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)

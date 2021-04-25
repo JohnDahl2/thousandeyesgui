@@ -267,7 +267,8 @@ if __name__ == '__main__':
 
     combobox_autocomplete = Combobox_Autocomplete(root, list_of_items, highlightthickness=1)
     combobox_autocomplete.pack()
-
+    string = combobox_autocomplete.get()
+    print(string)
     combobox_autocomplete.focus()
 
     root.mainloop()
