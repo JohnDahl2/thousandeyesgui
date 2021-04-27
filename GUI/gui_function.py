@@ -1,12 +1,10 @@
 from GUI.frame_constructor import MainApp
 from tkinter import Tk, messagebox
 from datetime import datetime, timezone
-from logoncredintal.logon import thousandeyes_logon
 
 class function_gui(MainApp):
     def TimeStamp(self, year, month, day, hour, minute, zone):
-        d1 = datetime.strptime(f"{year} {month} {day} {hour}:{minute} {zone}" , "%y %m %d %I:%M %p")
-        return int(d1.replace(tzinfo=timezone.utc).timestamp())
+        return int(datetime.strptime(f"{year} {month} {day} {hour}:{minute} {zone}" , "%y %m %d %I:%M %p").replace(tzinfo=timezone.utc).timestamp())
     def retreive_credintails(self):
         try:
             dt_start = self.TimeStamp(self.entry_start_date_year.get(), self.entry_start_date_month.get(), self.entry_start_date_day.get(),
@@ -20,38 +18,19 @@ class function_gui(MainApp):
         except ValueError:
             messagebox.showerror("Time Problem", f"The end time was entered incorrectly \n Its M D Y H:M")
             return
-        return_json = {'username':self.user.get(), 'testId': self.testId.get(), 'agentId': self.agendId.get(), 'start':dt_start, 'end': dt_end}
-        for val in return_json:
-            if val == '':
-                messagebox.showerror(f"The {val.keys()} value was not correct")
+        return_json = {'username': self.retrieve_username, 'authtoken': self.retrieve_authtoken,
+                       'agentId': self.retrieve_agentid,'testId':self.retrieve_testid, 'start':dt_start, 'end': dt_end}
+        map(lambda x: messagebox.showerror(f"The {x.keys()} value was not correct") if x == '' else None, return_json)
         return return_json
-
-    def retrieve_username_and_password(self):
-        creditals = self.retreive_credintails()
-        data = thousandeyes_logon().credintail
-        up = data[creditals['username']]
-        creditals['username'] = up['username']
-        creditals['authtoken'] = up['authtoken']
-        return creditals
+    @property
+    def retrieve_username(self):
+        return self.usernames[self.user.get()]['username']
+    @property
+    def retrieve_authtoken(self):
+        return self.usernames[self.user.get()]['authtoken']
+    @property
     def retrieve_agentid(self):
-        creditals = self.retrieve_username_and_password()
-        list_of_cities = self.agentId_list
-        for value in list_of_cities:
-            if value['agentName'] == creditals['agentId']:
-                creditals['agentId'] = value['agentId']
-                break
-        return creditals
+        return next(filter(lambda x : x if self.agentId.get() == x['agentName'] else '', self.agentId_list))['agentId']
+    @property
     def retrieve_testid(self):
-        credintals = self.retrieve_agentid()
-        list_of_test = self.testId_list
-        for value in list_of_test:
-            if value['type'] == credintals['testId']:
-                credintals['testId'] = value['testId']
-                break
-        print(credintals)
-        return credintals
-
-
-root = Tk()
-function_gui(root)
-root.mainloop()
+        return next(filter(lambda x: x if self.testId.get() == x['type'] else '', self.testId_list))['testId']

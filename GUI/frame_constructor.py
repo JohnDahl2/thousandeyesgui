@@ -3,14 +3,15 @@ from tkinter import ttk
 from logoncredintal.logon import thousandeyes_logon
 from gui_methods.gui_date_methods import gui_date_class
 from api_for_thousandeyes.requests_API import thousand_API
-
+from gui_methods.boxing_method import updating_box
 
 class MainApp(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
-        self.agentId_list = thousand_API().get_the_data_agentId
-        self.testId_list = thousand_API().get_the_data_testId
+        self.agentId_list = thousand_API().agentId
+        self.testId_list = thousand_API().testId
+        self.usernames = thousandeyes_logon().credintail
 
         parent.title("Thousandeyes Interface")
         parent['background']='#E7E7E7'
@@ -19,33 +20,31 @@ class MainApp(tk.Frame):
         ttk.Label(parent, text="Start Date").grid(row=1)
         ttk.Label(parent, text="End Date").grid(row=2)
         ttk.Label(parent, text="TestID").grid(row=3)
-        ttk.Label(parent, text="AgendId").grid(row=4)
+        ttk.Label(parent, text="AgentId").grid(row=4)
 
         self.user = tk.StringVar()
         self.testId = tk.StringVar()
-        self.agendId = tk.StringVar()
+        self.agentId = tk.StringVar()
 
         user_entry = ttk.Combobox(parent, width = 27, textvariable = self.user)
-        testid_entry = ttk.Combobox(parent, width=27, textvariable=self.testId)
-        agendid_entry = ttk.Combobox(parent, width=27, textvariable=self.agendId)
+        testid_entry = ttk.Combobox(parent, width=27, textvariable = self.testId)
 
-        user_entry['values'] = thousandeyes_logon().logon()
+        user_entry['values'] = tuple(self.usernames.keys())
         testid_entry['values'] = tuple(key['type'] for key in self.testId_list)
-        agendid_entry['values'] = tuple(key['agentName'] for key in self.agentId_list)
 
         user_entry.grid(row=0, column=1)
         testid_entry.grid(row=3, column=1)
-        agendid_entry.grid(row=4, column=1)
+        updating_box(parent,self.agentId,tuple((key['agentName'] for key in self.agentId_list)),  4, 1)
 
-        self.entry_start_date_month = tk.IntVar()
-        self.entry_start_date_day = tk.IntVar()
-        self.entry_start_date_year = tk.IntVar()
-        self.entry_start_date_hour = tk.IntVar()
-        self.entry_start_date_minutes = tk.IntVar()
+        self.entry_start_date_month = tk.IntVar(value='')
+        self.entry_start_date_day = tk.IntVar(value='')
+        self.entry_start_date_year = tk.IntVar(value='')
+        self.entry_start_date_hour = tk.IntVar(value='')
+        self.entry_start_date_minutes = tk.IntVar(value='')
         self.entry_start_am_pm = tk.StringVar()
 
         date_frame_entry_start = ttk.Frame(parent)
-        frame_entry_month_start = ttk.Entry(date_frame_entry_start, textvariable=self.entry_start_date_month, width=2)
+        frame_entry_month_start = ttk.Entry(date_frame_entry_start,textvariable=self.entry_start_date_month, width=2)
         frame_label_slash_1_start = ttk.Label(date_frame_entry_start, text = '/')
         frame_entry_day_start = ttk.Entry(date_frame_entry_start, textvariable=self.entry_start_date_day, width=2)
         frame_label_slash_2_start = ttk.Label(date_frame_entry_start, text='/')
@@ -78,11 +77,11 @@ class MainApp(tk.Frame):
         frame_entry_hour_start.bind('<KeyRelease>', lambda e: self.entries_start._check(3, 2))
         frame_entry_minute_start.bind('<KeyRelease>', lambda e: self.entries_start._check(4, 2))
 
-        self.entry_end_date_month = tk.IntVar()
-        self.entry_end_date_day = tk.IntVar()
-        self.entry_end_date_year = tk.IntVar()
-        self.entry_end_date_hour = tk.IntVar()
-        self.entry_end_date_minutes = tk.IntVar()
+        self.entry_end_date_month = tk.IntVar(value='')
+        self.entry_end_date_day = tk.IntVar(value='')
+        self.entry_end_date_year = tk.IntVar(value='')
+        self.entry_end_date_hour = tk.IntVar(value='')
+        self.entry_end_date_minutes = tk.IntVar(value='')
         self.entry_end_am_pm = tk.StringVar()
 
         date_frame_entry_end = ttk.Frame(parent)
@@ -119,5 +118,5 @@ class MainApp(tk.Frame):
         frame_entry_hour_end.bind('<KeyRelease>', lambda e: self.entries_end._check(3, 2))
         frame_entry_minute_end.bind('<KeyRelease>', lambda e: self.entries_end._check(4, 2))
 
-        submit_button = ttk.Button(parent, text='Submit', command=self.retrieve_testid)
+        submit_button = ttk.Button(parent, text='Submit', command=self.retreive_credintails)
         submit_button.grid(row=6, column=1)
