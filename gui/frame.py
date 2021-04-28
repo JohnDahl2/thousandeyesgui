@@ -1,17 +1,17 @@
 import tkinter as tk
 from tkinter import ttk
-from logoncredintal.logon import thousandeyes_logon
-from gui_methods.gui_date_methods import gui_date_class
-from api_for_thousandeyes.requests_API import thousand_API
-from gui_methods.boxing_method import updating_box
+from logon.logon import logon
+from tk_functions.date_methods import gui_date_class
+from request.request import thousand_api
+from tk_functions.boxing import updating_box
 
 class MainApp(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
-        self.agentId_list = thousand_API().agentId
-        self.testId_list = thousand_API().testId
-        self.usernames = thousandeyes_logon().credintail
+        self.agentId_list = thousand_api().agentId
+        self.testId_list = thousand_api().testId
+        self.usernames = logon().credintail
 
         parent.title("Thousandeyes Interface")
         parent['background']='#E7E7E7'

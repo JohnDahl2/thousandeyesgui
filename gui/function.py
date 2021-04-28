@@ -1,8 +1,8 @@
-from GUI.frame_constructor import MainApp
-from tkinter import Tk, messagebox
+from gui.frame import MainApp
+from tkinter import messagebox
 from datetime import datetime, timezone
 
-class function_gui(MainApp):
+class function(MainApp):
     def TimeStamp(self, year, month, day, hour, minute, zone):
         return int(datetime.strptime(f"{year} {month} {day} {hour}:{minute} {zone}" , "%y %m %d %I:%M %p").replace(tzinfo=timezone.utc).timestamp())
     def retreive_credintails(self):
