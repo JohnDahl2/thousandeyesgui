@@ -6,6 +6,7 @@ from request.request import thousand_api
 from tk_functions.boxing import updating_box
 
 
+
 class MainApp(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
