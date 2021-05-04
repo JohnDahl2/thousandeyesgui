@@ -7,8 +7,12 @@ class function(MainApp):
         return int(datetime.strptime(f"{year} {month} {day} {hour}:{minute} {zone}" , "%y %m %d %I:%M %p").replace(tzinfo=timezone.utc).timestamp())
     def retreive_credintails(self):
         try:
-            dt_start = self.TimeStamp(self.entry_start_date_year.get(), self.entry_start_date_month.get(), self.entry_start_date_day.get(),
-                                  self.entry_start_date_hour.get(), self.entry_start_date_minutes.get(), self.entry_start_am_pm.get())
+            dt_start = self.TimeStamp(self.entry_start_date_year.get(),
+                                      self.entry_start_date_month.get(),
+                                      self.entry_start_date_day.get(),
+                                      self.entry_start_date_hour.get(),
+                                      self.entry_start_date_minutes.get(),
+                                      self.entry_start_am_pm.get())
         except ValueError:
             messagebox.showerror("Time Problem", f"The start time was entered incorrectly \n Its M D Y H:M")
             return
